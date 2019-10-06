@@ -19124,7 +19124,19 @@ RunLogout.run(testRunner,context)</script></con:config></con:testStep><con:prope
          <urn:password>Learning@23PQbfRPxVs1ztrREOVHavBfYqT</urn:password>\r
       </urn:login>\r
    </soapenv:Body>\r
-</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="43d8b0bb-60c1-4e63-97fa-7386c3a83e7c"/><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:tearDownScript>RunTC2=testRunner.testsCase.testSuite.testCases["Logout_TestCase _02"]
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="43d8b0bb-60c1-4e63-97fa-7386c3a83e7c"/><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="groovy" name="Groovy Script" id="698485a7-5f26-4078-aaec-9e97d0d88dd0"><con:settings/><con:config><script>import com.eviware.soapui.support.XmlHolder
+
+testRunner.testCase.testSteps["Login_TestStep"]
+
+
+LoginResp = context.expand('${Login_TestStep#response}')
+ConvXml= new XmlHolder(LoginResp)
+getserverurl = ConvXml.getNodeValue("//*:serverUrl")
+getsessionid = ConvXml.getNodeValue("//*:sessionId")
+
+
+com.eviware.soapui.SoapUI.globalProperties.setPropertyValue("serverURL", getserverurl)
+com.eviware.soapui.SoapUI.globalProperties.setPropertyValue("sessionid", getsessionid)</script></con:config></con:testStep><con:tearDownScript>RunTC2=testRunner.testCase.testSuite.testCases["Logout_TestCase _02"]
 RunTC2.run(null,false)</con:tearDownScript><con:properties/></con:testCase><con:testCase id="4f835a7e-64ea-439b-951c-8539a9f5ec33" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Logout_TestCase _02" searchProperties="true"><con:settings/><con:testStep type="request" name="Logout_TestStep" id="4ce6d4fb-c99a-40d3-b818-bd5df443fb9a"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>SoapBinding</con:interface><con:operation>logout</con:operation><con:request name="Logout_TestStep" id="6f5cb84b-436e-4cae-ab05-41279ecb7035"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>${serverURL}</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:enterprise.soap.sforce.com">\r
    <soapenv:Header>\r
       <urn:SessionHeader>\r
@@ -19134,7 +19146,7 @@ RunTC2.run(null,false)</con:tearDownScript><con:properties/></con:testCase><con:
    <soapenv:Body>\r
       <urn:logout/>\r
    </soapenv:Body>\r
-</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="7f047138-b0dc-4874-aca4-a9901f0e93b2"/><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="1253cc2a-64f0-4220-aa8f-0aabaf4d2438" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Groovy_TestCase_03" searchProperties="true"><con:settings/><con:testStep type="groovy" name="GroovyScript_TestStep" id="61123d6c-c10c-42a5-8679-95af6d425917"><con:settings/><con:config><script>import com.eviware.soapui.support.XmlHolder
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="7f047138-b0dc-4874-aca4-a9901f0e93b2"/><con:assertion type="SOAP Fault Assertion" id="6239af2c-7490-4154-8bda-c4b5a208f0fd" name="Not SOAP Fault"/><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="1253cc2a-64f0-4220-aa8f-0aabaf4d2438" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Groovy_TestCase_03" searchProperties="true"><con:settings/><con:testStep type="groovy" name="GroovyScript_TestStep" id="61123d6c-c10c-42a5-8679-95af6d425917"><con:settings/><con:config><script>import com.eviware.soapui.support.XmlHolder
 import com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext
 
 
@@ -19145,21 +19157,6 @@ import com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext
 RunLogin =testRunner.testCase.testSuite.testCases["Login_TestCase_01"]
 RunLogin.run(null,false)
 
-RunLogin1 =testRunner.testCase.testSuite.testCases["Login_TestCase_01"].testSteps["Login_TestStep"]
-diffcontext = new WsdlTestRunContext(RunLogin1)
-
-
-
-LoginResp = diffcontext.expand('${Login_TestStep#response}')
-ConvXml= new XmlHolder(LoginResp)
-getserverurl = ConvXml.getNodeValue("//*:serverUrl")
-getsessionid = ConvXml.getNodeValue("//*:sessionId")
-
-log.info getserverurl
-log.info getsessionid
-
-com.eviware.soapui.SoapUI.globalProperties.setPropertyValue("serverURL", getserverurl)
-com.eviware.soapui.SoapUI.globalProperties.setPropertyValue("sessionid", getsessionid)
 
 //context.setProperty("serverURL", getserverurl)
 //context.setProperty("sessionid", getsessionid)
